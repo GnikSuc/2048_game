@@ -10,8 +10,10 @@ Installation:
 
 Clone the repository:
 > git clone https://github.com/yourusername/2048_game.git
+
 Navigate to the project directory:
 > cd 2048_game
+
 Run the game:
 > py 2048_Game.py
 
