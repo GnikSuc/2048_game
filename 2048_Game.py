@@ -1,22 +1,38 @@
 import random
+import keyboard
+import time
 
 def start_game():
+    print("\n*** Game 2048 ***\n")
     matrice = []
     for i in range(4):
         matrice.append([0] * 4)
-    matrice, end = add_new_number(matrice)
-    return matrice, end
+    matrice = add_new_number(matrice)
+    return matrice
 
-def game_over():
-    print("Game over!")
+def print_info():
+    print("Use the arrows or 'W', 'A', 'S', 'D' to set the direction of the next move.\nPress 'esc' to exit anytime.\n")
+
+def is_game_over(matrice, end):
+    success = False
+
+    if end == False:
+        for row in matrice:
+            if row == 2048:
+                end = True
+                success = True
+            elif 0 not in row:
+                end = True
+            success = False
+
+    if end == True and success == False:
+        print("\nGame over!\n")
+    elif end == True and success == True:
+        print("Congratulations! You successfully completed the game! :)\n")
+
+    return end
 
 def add_new_number(matrice):
-    end = False
-    # for row in matrice:
-    #     if 0 not in matrice:
-    #         end = True
-    #         return matrice, end
-            
     row = random.randint(0, 3)
     column = random.randint(0, 3)
 
@@ -24,7 +40,7 @@ def add_new_number(matrice):
         row = random.randint(0, 3)
         column = random.randint(0, 3)
     matrice[row][column] = 2
-    return matrice, end
+    return matrice
 
 def show_matrice(matrice):
     for row in range(len(matrice)):
@@ -34,13 +50,31 @@ def show_matrice(matrice):
 
 #def set_matrice_bool(matrice_boolean)
 
-def move(matrice):
+def move(matrice, end):
     while True:
-        move = input("Press command (W/A/S/D): ").upper()
-        if move in ['W','A','S','D']:
+        if keyboard.is_pressed("up") or keyboard.is_pressed("w"):
+            move = "UP"
+        elif keyboard.is_pressed("down") or keyboard.is_pressed("s"):
+            move = "DOWN"
+        elif keyboard.is_pressed("left") or keyboard.is_pressed("a"):
+            move = "LEFT"
+        elif keyboard.is_pressed("right") or keyboard.is_pressed("d"):
+            move = "RIGHT"
+        elif keyboard.is_pressed("esc"):
+            end = True
             break
         else:
-            print("Selected key is not available! Use keys W, A, S or D...")
+            continue
+
+        if end != True:
+            time.sleep(0.2)
+            matrice = game_logic(matrice, move)
+            print("")    
+            break
+    return matrice, end
+    
+
+def game_logic(matrice, move):
 
     matrice_boolean = [
         [False, False, False, False],
@@ -50,8 +84,7 @@ def move(matrice):
     ]
 
     match move:
-        # UP
-        case "W":
+        case "UP":
             for row in range(len(matrice)):
                 if row == 0:
                     continue
@@ -75,9 +108,7 @@ def move(matrice):
                                 matrice_boolean[previous][column] = True
                             elif (matrice[previous][column]) > number:
                                 break
-
-        # LEFT
-        case "A":
+        case "LEFT":
             for row in range(len(matrice)):
                 for column in range(len(matrice[row])):
                     if column == 0:
@@ -101,9 +132,7 @@ def move(matrice):
                                 matrice_boolean[row][previous] = True
                             elif (matrice[row][previous]) > number:
                                 break
-
-        # DOWN
-        case "S":
+        case "DOWN":
             for row in range(len(matrice)-1, -1, -1):
                 if row == 3:
                     continue
@@ -128,9 +157,7 @@ def move(matrice):
                                 matrice_boolean[following][column] = True
                             elif (matrice[following][column]) > number:
                                 break
-
-        # RIGHT
-        case "D":
+        case "RIGHT":
             for row in range(len(matrice)):
                 for column in range(len(matrice[row])-1, -1, -1):
                     if column == 3:
@@ -158,12 +185,14 @@ def move(matrice):
 
 
 def main():
-    matrice, end = start_game()
+    end = False
+    matrice = start_game()
+    print_info()
     while end == False:
-        matrice, end = add_new_number(matrice)
+        matrice = add_new_number(matrice)
         show_matrice(matrice)
-        matrice = move(matrice) 
-    game_over()
+        matrice, end = move(matrice, end)
+        end = is_game_over(matrice, end)
 
     # matrice = [
     #     [0, 2, 2, 2],
