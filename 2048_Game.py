@@ -15,20 +15,25 @@ def print_info():
 
 def is_game_over(matrice, end):
     success = False
+    zero = False
 
     if end == False:
         for row in matrice:
-            if row == 2048:
-                end = True
-                success = True
-            elif 0 not in row:
-                end = True
+            for column in row:
+                if column == 2048:
+                    end = True
+                    success = True
+                elif column == 0:
+                    zero = True
+        if zero == False:
+            end = True
             success = False
 
+    lines = 7 * "\n"
     if end == True and success == False:
-        print("\nGame over!\n")
+        print(f"{lines}Game over!\n")
     elif end == True and success == True:
-        print("Congratulations! You successfully completed the game! :)\n")
+        print(f"{lines}Congratulations! You successfully completed the game! :)\n")
 
     return end
 
@@ -42,13 +47,19 @@ def add_new_number(matrice):
     matrice[row][column] = 2
     return matrice
 
-def show_matrice(matrice):
+def show_matrice(matrice, moves):
+    output = ""
+    print(f"Moves: {moves}\n")
+    
     for row in range(len(matrice)):
+        output += "| "
         for column in range(len(matrice[row])):
-            print(matrice[row][column], end=" ")
-        print(end="\n")
+            output += str(matrice[row][column]).center(4) + ""
+        output += "|\n"
 
-#def set_matrice_bool(matrice_boolean)
+    print(output + "\033[F" * (len(matrice) + 4))
+    moves += 1
+    return moves    
 
 def move(matrice, end):
     while True:
@@ -186,20 +197,14 @@ def game_logic(matrice, move):
 
 def main():
     end = False
+    moves = 0
     matrice = start_game()
     print_info()
     while end == False:
         matrice = add_new_number(matrice)
-        show_matrice(matrice)
+        moves = show_matrice(matrice, moves)
         matrice, end = move(matrice, end)
         end = is_game_over(matrice, end)
-
-    # matrice = [
-    #     [0, 2, 2, 2],
-    #     [0, 0, 4, 2],
-    #     [2, 2, 2, 4],
-    #     [0, 0, 0, 4]
-    # ]
 
 if __name__ == "__main__":
     main()
