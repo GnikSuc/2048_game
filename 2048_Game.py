@@ -78,7 +78,7 @@ def move(matrice, end):
             continue
 
         if end != True:
-            time.sleep(0.2)
+            time.sleep(0.1)
             matrice = game_logic(matrice, move)
             print("")    
             break
@@ -107,8 +107,8 @@ def game_logic(matrice, move):
                             current = previous + 1
 
                             if matrice_boolean[current][column] == True:
-                                matrice_boolean[previous][column] == True
-                                matrice_boolean[current][column] == False
+                                matrice_boolean[previous][column] = True
+                                matrice_boolean[current][column] = False
 
                             if (matrice[previous][column]) == 0:
                                 matrice[previous][column] = number
@@ -131,8 +131,8 @@ def game_logic(matrice, move):
                             current = previous + 1
 
                             if matrice_boolean[row][current] == True:
-                                matrice_boolean[row][previous] == True
-                                matrice_boolean[row][current] == False
+                                matrice_boolean[row][previous] = True
+                                matrice_boolean[row][current] = False
 
                             if (matrice[row][previous]) == 0:
                                 matrice[row][previous] = number
@@ -155,8 +155,8 @@ def game_logic(matrice, move):
                             current = following - 1
 
                             if matrice_boolean[current][column] == True:
-                                matrice_boolean[following][column] == True
-                                matrice_boolean[current][column] == False
+                                matrice_boolean[following][column] = True
+                                matrice_boolean[current][column] = False
                             
                             if (matrice[following][column]) == 0:
                                 matrice[following][column] = number
@@ -180,8 +180,8 @@ def game_logic(matrice, move):
                             current = following - 1
 
                             if matrice_boolean[row][current] == True:
-                                matrice_boolean[row][following] == True
-                                matrice_boolean[row][current] == False
+                                matrice_boolean[row][following] = True
+                                matrice_boolean[row][current] = False
 
                             if (matrice[row][following]) == 0:
                                 matrice[row][following] = number
