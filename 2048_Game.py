@@ -78,7 +78,7 @@ def move(matrice, end):
             continue
 
         if end != True:
-            time.sleep(0.1)
+            time.sleep(0.2)
             matrice = game_logic(matrice, move)
             print("")    
             break
