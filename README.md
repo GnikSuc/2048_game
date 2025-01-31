@@ -9,7 +9,7 @@ A simple implementation of the 2048 game playable in the command prompt. Slide n
 Installation:
 
 Clone the repository:
-> git clone https://github.com/yourusername/2048_game.git
+> git clone https://github.com/GnikSuc/2048_game.git
 
 Navigate to the project directory:
 > cd 2048_game
